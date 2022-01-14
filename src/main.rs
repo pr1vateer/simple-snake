@@ -1,6 +1,8 @@
 use std::collections::LinkedList;
 use macroquad::prelude::*;
 
+use std::time::{SystemTime, UNIX_EPOCH};
+
 type Point = (i32, i32);
 
 const WIDTH: i32 = 640;
@@ -102,6 +104,9 @@ fn draw_lost_screen(score: i32) -> () {
 }
 
 fn get_apple() -> Point {
+    //Without it, generator is apparently seeded with the same number always, resulting in apple appearing in the same places each game
+    let x = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time before Unix epoch start");
+    rand::srand(x.as_secs());
     return (rand::gen_range(0, SQUARE_COUNT_SIDE), rand::gen_range(0, SQUARE_COUNT_SIDE));
 }
 
