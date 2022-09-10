@@ -23,11 +23,7 @@ async fn main() {
     let refresh_rate = 0.1;
 
     let mut apple: Point = get_apple();
-    let mut snake = Snake {
-        head: (2, 0),
-        direction: (1, 0),
-        body: LinkedList::from([(1,0)]),
-    };
+    let mut snake: Snake = get_new_snake();
     let mut score = 0;
 
     let up = (0, -1);
@@ -41,6 +37,7 @@ async fn main() {
 
             if is_key_down(KeyCode::Enter) {
                 score = 0;
+                snake = get_new_snake();
                 is_game_over = false;
             }
         }
@@ -75,6 +72,11 @@ async fn main() {
                     if *x == snake.head.0 && *y == snake.head.1 {
                         is_game_over = true;
                     }
+                }
+                if snake.head.0 >= SQUARE_COUNT_SIDE || snake.head.0 < 0 
+                || snake.head.1 >= SQUARE_COUNT_SIDE || snake.head.1 < 0 
+                    {
+                    is_game_over = true;
                 }
             }
 
@@ -113,6 +115,14 @@ fn get_apple() -> Point {
 fn draw_centered(text: &str, font_size: f32, offset_y: f32) -> () {
     let text_size = measure_text(text, None, font_size as _, 1.0);
     draw_text(text, screen_width() / 2. - text_size.width / 2., screen_height() / 2. - text_size.height / 2. + offset_y, font_size, BLACK);
+}
+
+fn get_new_snake() -> Snake {
+    return Snake {
+        head: (2, 0),
+        direction: (1, 0),
+        body: LinkedList::from([(1,0)]),
+    };
 }
 
 fn window_configuration() -> Conf {
