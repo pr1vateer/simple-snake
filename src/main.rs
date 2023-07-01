@@ -18,7 +18,7 @@ struct Snake {
 
 #[macroquad::main(window_configuration)]
 async fn main() {
-    let mut is_game_over = true;
+    let mut is_game_over = false;
     let mut last_update = get_time();
     let refresh_rate = 0.1;
 
@@ -102,7 +102,7 @@ fn draw_lost_screen(score: i32) -> () {
     clear_background(WHITE);
     
     draw_centered(format!("Game over. Your score was {}", score).as_str(), 30.0, 0.0);
-    draw_centered("Press enter to restart", 30.0, 30.0);
+    draw_centered("Press enter to restart", 32.0, 30.0);
 }
 
 fn get_apple() -> Point {
